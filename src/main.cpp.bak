@@ -1,0 +1,24 @@
+#include <Arduino.h>
+#include <Bounce2.h>
+#include <WiFiNINA.h>
+
+const int WaterFlow = 4;
+const int WaterRelay = 3;
+
+#define ON LOW
+#define OFF HIGH
+
+Bounce waterFlow;
+
+void setup() {
+  pinMode(WaterRelay, OUTPUT);
+  digitalWrite(WaterRelay, OFF);
+  waterFlow.attach(WaterFlow, INPUT);
+  waterFlow.interval(100);
+  digitalWrite(WaterFlow, LOW);
+}
+
+void loop() {
+  waterFlow.update();
+  digitalWrite(WaterRelay, waterFlow.read() ? ON : OFF);
+}
